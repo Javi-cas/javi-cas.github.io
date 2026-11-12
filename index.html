@@ -138,9 +138,9 @@ main,.hero,footer{position:relative;z-index:1}
 .btn.primary{background:var(--cat);color:var(--bg);border-color:transparent}
 .status{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.4rem 1.4rem;margin:2.6rem 0 0;font-size:.95rem;max-width:560px}
 .status dt{color:var(--muted)} .status dd{margin:0}
-.hero-note{margin-top:1.8rem;font-size:.85rem;color:var(--muted);max-width:56ch}
-.hero-note i{display:inline-block;width:.6em;height:.6em;border-radius:50%;margin-right:.25em}
-.hero-note .c{background:var(--cat)} .hero-note .a{background:var(--ana)}
+.hud .intro{margin:0 0 .8rem;font-size:.8rem;line-height:1.45;color:var(--muted)}
+.hud .intro i{display:inline-block;width:.6em;height:.6em;border-radius:50%;margin-right:.25em}
+.hud .intro .c{background:var(--cat)} .hud .intro .a{background:var(--ana)}
 
 .section{padding-block:clamp(1.2rem,3vw,2rem)}
 .section .wrap > .panel{display:block}
@@ -238,7 +238,7 @@ footer .panel{padding:1.2rem 1.6rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:.8rem 2rem;justify-content:space-between}
 footer p{max-width:60ch}
 
-.hud{display:none;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 3.2rem);z-index:15;width:290px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.9rem 1rem;font-size:.84rem;color:var(--muted);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.hud{display:none;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 3.2rem);z-index:15;width:320px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.9rem 1rem;font-size:.84rem;color:var(--muted);box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .hud.open{display:block}
 .hud h4{margin:0 0 .6rem;font:inherit;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:.5rem}
 .hud h4 .x{margin-left:auto;color:var(--muted);font-size:1.1rem;line-height:1;padding:0 .2rem}
@@ -348,7 +348,6 @@ footer p{max-width:60ch}
       </div>
       <div class="hero-side">
       <dl class="status"><dt>Now</dt><dd>boltzbench preprint in preparation: a test of whether Boltz-2 knows metabolic regulators</dd><dt>PhD</dt><dd>George Lab, Texas A&amp;M School of Medicine, expected May 2027</dd><dt>Open to</dt><dd>AI-for-science and computational biology research roles from mid-2027</dd><dt>Based in</dt><dd>Houston, Texas</dd></dl>
-      <p class="hero-note"><i class="c"></i>catabolic flux, <i class="a"></i>anabolic flux. A toy metabolic network runs behind the whole page. Move across it to feed nutrients. Click or tap open space to knock the nearest node down; it stays down until you click it again. Hover a card to feed the network around it, and open the live console (bottom right) to change the diet.</p>
       </div>
     </div>
   </div>
@@ -450,12 +449,12 @@ footer p{max-width:60ch}
 </div>
 <aside class="hud" id="hud" aria-label="Network console">
   <h4>Flux network, live<button type="button" class="x" id="hudClose" aria-label="Close console">&times;</button></h4>
+  <p class="intro"><i class="c"></i>catabolic flux, <i class="a"></i>anabolic flux. A toy metabolic network runs behind the whole page. Move across it to feed nutrients. Click or tap open space to knock the nearest node down; it stays down until you click it again. Hover a card to feed the network around it, and use the dials below to change the diet. Space pauses.</p>
   <label><span>Glucose</span><input type="range" id="sGlu" min="0" max="100" value="60"><span class="v" id="vGlu">60</span></label>
   <label><span>Oxygen</span><input type="range" id="sOxy" min="0" max="100" value="70"><span class="v" id="vOxy">70</span></label>
   <label class="q"><span>Glutamine</span><input type="range" id="sGln" min="0" max="100" value="50"><span class="v" id="vGln">50</span></label>
   <div class="row"><button type="button" id="bPause">Pause</button><button type="button" id="bReset">Reset</button><button type="button" id="bRandom">Shuffle</button></div>
   <p class="read"><b id="rNodes">0</b> metabolites, <b id="rEdges">0</b> reactions, <b id="rFlux">0</b> mean flux, <b id="rKd">0</b> knocked down</p>
-  <p class="hint">Space pauses. Click open space to knock a node down, click again to bring it back, Reset restores all.</p>
 </aside>
 <button class="hud-toggle" id="hudToggle" type="button" aria-expanded="false" aria-controls="hud"><span class="live" aria-hidden="true"></span>Flux network, live</button>
 <dialog id="lightbox" class="lightbox" aria-label="Enlarged figure"><div class="lb-inner"><img id="lbImg" src="" alt=""><p id="lbCap"></p><button type="button" id="lbClose" class="lb-close">Close</button></div></dialog>
