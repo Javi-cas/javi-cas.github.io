@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--ART-->
+<title>Javier Villela-Castrejón, design J</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Javier Villela-Castrejón, computational biologist. Mechanistic and machine-learning models of cancer and immune cell metabolism, tested against the strongest simple baseline.">
+<meta name="theme-color" content="#0E1517">
+<meta property="og:title" content="Javier Villela-Castrejón">
+<meta property="og:description" content="Mechanistic and machine-learning models of cancer and immune cell metabolism, tested against the strongest simple baseline.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Hanken+Grotesk:ital,wght@0,300..700;1,300..700&display=swap">
+<style>
+/* Design J, "Flux, live, with rail": design H (the flux network behind the whole page, content on
+   translucent panels, a diet console) with a sticky left rail in the manner of design D: author card,
+   CV, Sections that track scrolling, Figures and At a glance. */
+:root{
+  --bg:#0E1517; --bg-rgb:14,21,23; --surface:#15201F; --line:#243432; --fg:#EAE6DC; --muted:#9DAEA9;
+  --cat:#5CC6B3; --ana:#E5A646; --link:#7AD3C3; --paper:#FFFFFF;
+  --display:"Fraunces","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){ --bg:#F3F5F3; --bg-rgb:243,245,243; --surface:#FFFFFF; --line:#D5DDDA; --fg:#152120; --muted:#5A6B68; --cat:#13806F; --ana:#B2731A; --link:#0F7566; color-scheme:light; }
+}
+:root[data-theme="light"]{ --bg:#F3F5F3; --bg-rgb:243,245,243; --surface:#FFFFFF; --line:#D5DDDA; --fg:#152120; --muted:#5A6B68; --cat:#13806F; --ana:#B2731A; --link:#0F7566; color-scheme:light; }
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;touch-action:manipulation}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:rgba(var(--bg-rgb),.9)}
+a{color:var(--link);text-decoration:none;text-underline-offset:.18em}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--ana);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.01em;text-wrap:balance;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1120px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-999px;top:0;background:var(--cat);color:var(--bg);padding:.5rem .8rem;z-index:40}
+.skip:focus{left:1rem;top:1rem}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(var(--bg-rgb),.84);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:1.5rem;min-height:60px}
+.brand{font-family:var(--display);font-size:1.15rem;color:var(--fg);white-space:nowrap}
+.brand:hover{text-decoration:none}
+.links{display:flex;gap:1.2rem;margin-left:auto;overflow-x:auto;scrollbar-width:none;font-size:.95rem;min-width:0}
+.links::-webkit-scrollbar{display:none}
+.links a{color:var(--muted);white-space:nowrap;padding:.3rem 0;border-bottom:1.5px solid transparent}
+.links a:hover{color:var(--fg);text-decoration:none}
+.links a.active{color:var(--fg);border-bottom-color:var(--cat)}
+.theme{color:var(--muted);font-size:.88rem;padding:.35rem .7rem;border:1px solid var(--line);border-radius:999px;white-space:nowrap}
+.theme:hover{color:var(--fg)}
+
+
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:2.2rem;align-items:start;position:relative;z-index:1}
+.content{min-width:0}
+.content .wrap{padding-left:0;padding-right:0;max-width:none}
+.rail.panel{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}
+.rail{position:sticky;top:calc(60px + env(safe-area-inset-top,0px) + 1.2rem);display:grid;gap:1.2rem;font-size:.9rem;margin-top:clamp(3rem,7vw,5.5rem);padding:1.3rem 1.2rem}
+.rail h4{margin:0 0 .5rem;font-family:var(--display);font-weight:500;font-size:.95rem;color:var(--fg);border-top:1px solid var(--line);padding-top:.8rem}
+.rail .sections a{display:block;color:var(--muted);padding:.26rem 0 .26rem .7rem;border-left:2px solid transparent;margin-left:-.7rem}
+.rail .sections a:hover{color:var(--fg);text-decoration:none}
+.rail .sections a.active{color:var(--fg);border-left-color:var(--cat)}
+.rail{overflow-wrap:anywhere}
+.rail .author{display:grid;grid-template-columns:1fr;gap:.6rem}
+.rail .author img{width:72px;height:72px;object-fit:cover;border-radius:50%;display:block}
+.rail .author b{display:block;font-family:var(--display);font-weight:500;font-size:1.02rem;line-height:1.2}
+.rail .author span{color:var(--muted);font-size:.8rem;line-height:1.35}
+.rail .cv{display:inline-block;background:var(--cat);color:var(--bg);font-weight:600;padding:.4rem .9rem;border-radius:999px;font-size:.88rem}
+.rail .cv:hover{text-decoration:none;filter:brightness(1.07)}
+.side-figs{display:grid;gap:.55rem}
+.side-figs a{display:grid;grid-template-columns:68px 1fr;gap:.6rem;align-items:center;color:var(--muted)}
+.side-figs a:hover{color:var(--fg);text-decoration:none}
+.side-figs img{width:68px;height:46px;object-fit:cover;object-position:left top;border:1px solid var(--line);background:#fff;border-radius:4px}
+.glance{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.3rem .7rem;margin:0;font-size:.85rem}
+.glance dt{color:var(--muted)} .glance dd{margin:0}
+.nav .links{display:none}
+
+/* Wider screens: let the page grow with the viewport instead of floating in the middle */
+@media (min-width: 1500px){
+  .wrap{max-width:1440px}
+  body{font-size:18px}
+  .layout{grid-template-columns:300px minmax(0,1fr);gap:2.8rem}
+  .hero .hero-text.panel{max-width:none;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem 3rem;align-items:end}
+  .hero-side .status{margin-top:0}
+  .hero h1{font-size:3.8rem}
+  .hero .sub{font-size:1.22rem;max-width:60ch}
+  .status{max-width:640px}
+  .thread{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+  .projects{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (min-width: 1900px){
+  .wrap{max-width:1720px}
+  body{font-size:19px}
+  .layout{grid-template-columns:330px minmax(0,1fr);gap:3.2rem}
+  .hero h1{font-size:4.4rem}
+  .rail{font-size:.95rem}
+}
+@media (min-width: 1200px) and (max-width: 1499px){
+  .wrap{max-width:1180px}
+}
+@media (max-width: 1000px){
+  .layout{grid-template-columns:1fr;gap:0}
+  .rail{display:none}
+  .nav .links{display:flex}
+  .content .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .layout{padding-left:0;padding-right:0}
+}
+.hero{position:relative}
+canvas#flux{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none}
+main,.hero,footer{position:relative;z-index:1}
+.hero .wrap{position:relative;padding-block:clamp(3rem,7vw,5.5rem)}
+.hero-text{max-width:660px}
+.panel{background:rgba(var(--bg-rgb),.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:clamp(1.4rem,3vw,2.4rem)}
+.hero .panel{max-width:760px}
+.kicker{color:var(--muted);font-size:1rem;margin-bottom:1rem}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.6rem);line-height:1.08;font-weight:400;font-variation-settings:"opsz" 144}
+.hero .sub{margin-top:1.4rem;font-size:1.15rem;max-width:56ch}
+.hero .sub span{color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.15rem;border:1px solid var(--line);border-radius:999px;color:var(--fg);font-weight:500;background:rgba(var(--bg-rgb),.6)}
+.btn:hover{text-decoration:none;border-color:var(--muted)}
+.btn.primary{background:var(--cat);color:var(--bg);border-color:transparent}
+.status{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.4rem 1.4rem;margin:2.6rem 0 0;font-size:.95rem;max-width:560px}
+.status dt{color:var(--muted)} .status dd{margin:0}
+.hero-note{margin-top:1.8rem;font-size:.85rem;color:var(--muted);max-width:56ch}
+.hero-note i{display:inline-block;width:.6em;height:.6em;border-radius:50%;margin-right:.25em}
+.hero-note .c{background:var(--cat)} .hero-note .a{background:var(--ana)}
+
+.section{padding-block:clamp(1.2rem,3vw,2rem)}
+.section .wrap > .panel{display:block}
+.section h2{font-size:clamp(1.8rem,3.2vw,2.5rem);line-height:1.1;margin-bottom:.8rem}
+.lede{color:var(--muted);max-width:62ch;font-size:1.1rem;margin-bottom:2.6rem}
+.prose{max-width:64ch} .prose p + p{margin-top:1rem}
+
+.about{display:grid;grid-template-columns:250px minmax(0,1fr);gap:3rem;align-items:start}
+.portrait{width:100%;max-width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block}
+.tools{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.6rem}
+.chip{border:1px solid var(--line);border-radius:999px;padding:.18rem .7rem;font-size:.85rem;color:var(--muted)}
+
+.timeline{display:grid;grid-template-columns:7.5rem minmax(0,1fr);column-gap:1.5rem;margin-top:3.2rem}
+.tl-year{font-family:var(--display);font-variant-numeric:tabular-nums;color:var(--muted);padding-top:.1rem;font-size:1.05rem}
+.tl-body{position:relative;padding:0 0 2rem 1.5rem;border-left:1px solid var(--line)}
+.timeline > .tl-body:last-child{padding-bottom:.2rem}
+.tl-body::before{content:"";position:absolute;left:-5px;top:.55rem;width:9px;height:9px;border-radius:50%;background:var(--bg);border:1.5px solid var(--muted)}
+.tl-body.now::before{background:var(--cat);border-color:var(--cat)}
+.tl-body strong{display:block;font-weight:600}
+.tl-body p{color:var(--muted);margin-top:.2rem;max-width:62ch}
+
+/* Figures and schematics */
+.figure{margin:0;min-width:0}
+.figure .zoom{display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:10px;background:var(--paper);overflow:hidden;cursor:zoom-in}
+.figure img{display:block;width:100%;height:auto}
+.figure figcaption{font-size:.85rem;color:var(--muted);margin-top:.65rem;line-height:1.45}
+.zoomhint{opacity:.75}
+.credit{display:block;font-size:.72rem;opacity:.7;margin-top:.25rem}
+.schematic{height:200px;border-radius:10px;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.schematic svg{width:100%;height:100%;display:block;font-family:var(--body);fill:var(--muted)}
+.sk-line{stroke:var(--line)} .sk-cat{fill:var(--cat)} .sk-catline{stroke:var(--cat)} .sk-ana{fill:var(--ana)} .sk-cell{fill:var(--surface);stroke:var(--fg)} .sk-label{fill:var(--fg)} .sk-muted{stroke:var(--muted);fill:var(--muted)}
+
+.threads{display:grid;gap:3.5rem}
+.thread{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:2.5rem 3rem;align-items:start}
+.thread-body{display:flex;flex-direction:column;gap:.6rem;min-width:0}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem;color:var(--muted);font-size:.88rem}
+.pill{display:inline-flex;align-items:center;gap:.45rem;font-size:.8rem;font-weight:500;padding:.14rem .62rem;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.pill.on::before{background:var(--cat)} .pill.wip::before{background:var(--ana)}
+.thread h3{font-size:1.45rem;line-height:1.25}
+.thread p{max-width:58ch}
+.figs{display:flex;flex-wrap:wrap;gap:.6rem 1.8rem;margin:.3rem 0}
+.fig b{display:block;font-family:var(--display);font-size:1.45rem;font-weight:500;line-height:1.1;font-variant-numeric:tabular-nums}
+.fig span{font-size:.85rem;color:var(--muted)}
+.linkrow{display:flex;flex-wrap:wrap;gap:1.1rem;font-size:.92rem}
+.stack{color:var(--muted);font-size:.85rem}
+
+.featured{margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid var(--line)}
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
+.project{border:1px solid var(--line);border-radius:12px;padding:1.3rem;background:var(--surface);display:flex;flex-direction:column;gap:.65rem;min-width:0}
+.project h3{font-size:1.25rem;line-height:1.25}
+.project p{font-size:.97rem}
+.project .stack{margin-top:auto;padding-top:.4rem}
+
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2.2rem 2.5rem}
+.principles h3{font-size:1.2rem;margin-bottom:.4rem}
+.principles p{color:var(--muted);font-size:.97rem}
+
+.pipeline{display:grid;gap:.9rem;margin-bottom:2.8rem;max-width:70ch}
+.pipeline li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2rem .9rem;align-items:start}
+.pipeline .pill{margin-top:.2rem}
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem}
+.filters button{border:1px solid var(--line);border-radius:999px;padding:.3rem .85rem;font-size:.9rem;color:var(--muted)}
+.filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.table-wrap{overflow-x:auto}
+.pubs{width:100%;border-collapse:collapse;font-size:.95rem}
+.pubs th{text-align:left;font-weight:500;color:var(--muted);border-bottom:1px solid var(--line);padding:.55rem .6rem .55rem 0;font-size:.85rem}
+.pubs td{padding:.8rem .6rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top}
+.pubs td.year{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--muted);width:3.5rem}
+.pubs td.role{white-space:nowrap;width:7rem;color:var(--muted)}
+.pubs td.link{white-space:nowrap;width:4rem}
+.pubs .t{font-weight:500}
+.pubs .v{color:var(--muted);font-size:.9rem;display:block;margin-top:.15rem}
+.pubs tr[hidden]{display:none}
+.count{color:var(--muted);font-size:.9rem;margin-top:.8rem}
+
+.list{display:grid;gap:1rem}
+.list li{display:grid;grid-template-columns:4rem minmax(0,1fr);gap:1rem;align-items:start}
+.list .y{font-family:var(--display);font-variant-numeric:tabular-nums;color:var(--muted);padding-top:.1rem}
+.list em{color:var(--muted);font-style:normal;display:block;font-size:.92rem;margin-top:.1rem}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.5rem 3.5rem}
+.cols h3{font-size:1.2rem;margin:2.6rem 0 1rem}
+.cols .list{margin-top:1.6rem}
+
+.contact{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:3rem}
+.copybox{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--line);border-radius:999px;padding:.35rem .45rem .35rem 1rem;margin-top:1.2rem;background:var(--surface);max-width:100%}
+.copybox span{user-select:all;-webkit-user-select:all;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.copybox button{border:1px solid var(--line);border-radius:999px;padding:.3rem .8rem;font-size:.88rem;color:var(--muted);flex:none}
+.contact-links{display:grid;gap:.9rem}
+.contact-links li{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:.6rem}
+.contact-links .k,.contact-links .soon{color:var(--muted)}
+
+footer{padding-block:2.2rem;color:var(--muted);font-size:.88rem}
+footer .panel{padding:1.2rem 1.6rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:.8rem 2rem;justify-content:space-between}
+footer p{max-width:60ch}
+
+.hud{display:none;position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 3.2rem);z-index:15;width:290px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.9rem 1rem;font-size:.84rem;color:var(--muted);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.hud.open{display:block}
+.hud h4{margin:0 0 .6rem;font:inherit;font-weight:600;color:var(--fg);display:flex;align-items:center;gap:.5rem}
+.hud h4 .x{margin-left:auto;color:var(--muted);font-size:1.1rem;line-height:1;padding:0 .2rem}
+.hud h4 .x:hover{color:var(--fg)}
+.hud label{display:grid;grid-template-columns:5.2rem 1fr 2.2rem;align-items:center;gap:.5rem;margin:.3rem 0}
+.hud input[type=range]{width:100%;accent-color:var(--cat);margin:0}
+.hud label.q input[type=range]{accent-color:var(--ana)}
+.hud .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--fg)}
+.hud .row{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
+.hud .row button{border:1px solid var(--line);border-radius:999px;padding:.3rem .75rem;color:var(--fg);font-size:.82rem}
+.hud .row button:hover{border-color:var(--muted)}
+.hud .read{margin-top:.6rem;line-height:1.45}
+.hud .read b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.hud .hint{margin-top:.5rem;font-size:.78rem;opacity:.85}
+.hud-toggle{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:16;display:inline-flex;align-items:center;gap:.55rem;border:1px solid var(--cat);border-radius:999px;padding:.55rem 1rem;background:var(--surface);color:var(--fg);font-size:.88rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.3);animation:bob 2.6s ease-in-out infinite}
+.hud-toggle:hover,.hud-toggle:focus-visible{filter:brightness(1.08);animation-play-state:paused}
+.hud-toggle .live{width:9px;height:9px;border-radius:50%;background:var(--cat);animation:hudpulse 1.6s infinite}
+.hud-toggle[aria-expanded="true"]{animation:none}
+.hud.paused ~ .hud-toggle .live,.hud-toggle.paused .live{background:var(--muted);animation:none}
+@keyframes hudpulse{0%{box-shadow:0 0 0 0 rgba(92,198,179,.55)}100%{box-shadow:0 0 0 9px rgba(92,198,179,0)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion: reduce){ .hud-toggle,.hud-toggle .live{animation:none} }
+.lightbox{border:0;padding:0;background:transparent;max-width:min(96vw,1400px);width:auto}
+.lightbox::backdrop{background:rgba(0,0,0,.8)}
+.lb-inner{background:var(--surface);color:var(--fg);border-radius:12px;padding:1rem;display:grid;gap:.7rem;max-height:92vh}
+.lb-inner img{max-width:100%;max-height:76vh;object-fit:contain;background:var(--paper);border-radius:6px;justify-self:center}
+.lb-inner p{font-size:.9rem;color:var(--muted);max-width:90ch}
+.lb-close{justify-self:end;border:1px solid var(--line);border-radius:999px;padding:.35rem .9rem}
+
+@media (max-width: 900px){
+  .thread{grid-template-columns:1fr}
+  .cols{grid-template-columns:1fr}
+  .contact{grid-template-columns:1fr}
+}
+@media (max-width: 720px){
+  body{font-size:16px}
+  .nav .wrap{gap:1rem}
+  .links{-webkit-mask-image:linear-gradient(90deg,#000 80%,transparent);mask-image:linear-gradient(90deg,#000 80%,transparent);padding-right:1.5rem}
+  .about{grid-template-columns:1fr}
+  .portrait{max-width:220px}
+  .timeline{grid-template-columns:4.6rem minmax(0,1fr);column-gap:1rem}
+  .tl-year{font-size:.95rem}
+}
+@media (max-width: 640px){
+  .pubs thead{display:none}
+  .pubs tr{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:.1rem .9rem;padding:.8rem 0;border-bottom:1px solid var(--line)}
+  .pubs tr[hidden]{display:none}
+  .pubs td{display:block;padding:0;border:0;width:auto}
+  .pubs td.title{grid-column:1/-1;margin-top:.2rem;order:1}
+  .pubs td.link{text-align:right}
+  .list li{grid-template-columns:3.4rem minmax(0,1fr);gap:.8rem}
+}
+</style>
+<!--/ART-->
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} img{max-width:100%} [hidden]{display:none!important}</style>
+</head>
+<body>
+<!--ART-->
+<a class="skip" href="#about">Skip to content</a>
+<nav class="nav" aria-label="Sections" data-nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Javier Villela-Castrejón</a>
+    <div class="links">
+      <a href="#about">About</a><a href="#research">Research</a><a href="#projects">Projects</a><a href="#publications">Publications</a><a href="#contact">Contact</a>
+    </div>
+    <button class="theme" id="themeBtn" type="button" aria-label="Switch colour theme">Light mode</button>
+  </div>
+</nav>
+<canvas id="flux" aria-hidden="true"></canvas>
+
+<div class="wrap layout">
+  <aside class="rail panel" aria-label="Page rail">
+    <div class="author"><img src="assets/headshot.jpg" alt="Portrait of Javier Villela-Castrejón" width="60" height="60"><div><b>Javier Villela-Castrejón</b><span>PhD candidate, <a href="https://georgeresearchgroup.org/">George Research Group</a>, Texas A&amp;M School of Medicine</span></div></div>
+    <div><a class="cv" href="assets/CV_Villela-Castrejon.pdf">Download CV (PDF)</a></div>
+    <nav class="sections" aria-label="Sections" data-nav>
+      <h4>Sections</h4>
+      <a href="#about">About</a><a href="#research">Research</a><a href="#projects">Projects</a><a href="#publications">Publications</a><a href="#talks">Talks and honors</a><a href="#contact">Contact</a>
+    </nav>
+    <div><h4>Figures</h4><ul class="side-figs">
+      <li><a href="#t-spatial"><img src="assets/figures/spatial_fig1a.jpg" alt="" loading="lazy"><span>Spatial atlas</span></a></li>
+      <li><a href="#t-model"><img src="assets/figures/metabolism_model.jpg" alt="" loading="lazy"><span>Metabolism model</span></a></li>
+      <li><a href="#t-cart"><img src="assets/figures/cart_abstract.jpg" alt="" loading="lazy"><span>CAR-T products</span></a></li>
+      <li><a href="#t-tcell"><img src="assets/figures/tcell_biorender.jpg" alt="" loading="lazy"><span>T-cell regulation</span></a></li>
+      <li><a href="#projects"><img src="assets/figures/javicell_biorender.jpg" alt="" loading="lazy"><span>VCC model</span></a></li>
+    </ul></div>
+    <div><h4>At a glance</h4><dl class="glance">
+      <dt>Now</dt><dd>boltzbench preprint, a Boltz-2 benchmark</dd>
+      <dt>PhD</dt><dd>Expected May 2027</dd>
+      <dt>Open to</dt><dd>Research roles from mid-2027</dd>
+      <dt>Lab</dt><dd><a href="https://georgeresearchgroup.org/">georgeresearchgroup.org</a></dd>
+      <dt>Code</dt><dd><a href="https://github.com/Javi-cas">github.com/Javi-cas</a></dd>
+    </dl></div>
+  </aside>
+  <div class="content">
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-text panel">
+      <div class="hero-main">
+      <p class="kicker">Computational biologist, PhD candidate at Texas A&amp;M, Houston</p>
+      <h1>Mechanistic and machine-learning models of how cancer and immune cells use nutrients.</h1>
+      <p class="sub">I build them, then try to beat them with the simplest baseline that could be right. <span>A double threat: expert in cell assays at the bench and in multi-omics, data analysis and AI integration in silico, used to turn new findings into theories that generalize.</span></p>
+      <div class="actions">
+        <a class="btn primary" href="#research">See the research</a>
+        <a class="btn" href="#projects">Projects</a>
+        <a class="btn" href="assets/CV_Villela-Castrejon.pdf">CV (PDF)</a>
+      </div>
+      </div>
+      <div class="hero-side">
+      <dl class="status"><dt>Now</dt><dd>boltzbench preprint in preparation: a test of whether Boltz-2 knows metabolic regulators</dd><dt>PhD</dt><dd>George Lab, Texas A&amp;M School of Medicine, expected May 2027</dd><dt>Open to</dt><dd>AI-for-science and computational biology research roles from mid-2027</dd><dt>Based in</dt><dd>Houston, Texas</dd></dl>
+      <p class="hero-note"><i class="c"></i>catabolic flux, <i class="a"></i>anabolic flux. A toy metabolic network runs behind the whole page. Move across it to feed nutrients. Click or tap open space to knock the nearest node down; it stays down until you click it again. Hover a card to feed the network around it, and open the live console (bottom right) to change the diet.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="panel">
+    <h2>About</h2>
+    <p class="lede">From cell culture rooms in Monterrey to dynamical models in Houston. The question stayed the same: what does a cell do with the nutrients it has?</p>
+    <div class="about">
+      <img class="portrait" src="assets/headshot.jpg" alt="Portrait of Javier Villela-Castrejón" width="600" height="800">
+      <div class="prose"><p>I am a PhD candidate in Biomedical Sciences at Texas A&amp;M University School of Medicine, working with Jason T. George on mathematical and statistical models of complex biological systems. My work sits at the junction of cancer metabolism, single-cell and spatial transcriptomics, and machine learning. I build mechanistic models (ODE and constraint-based) and learned models (linear-response, variational), and I spend as much effort on the nulls and baselines as on the models themselves.</p><p>Before computation I spent eight years at the bench at Tecnológico de Monterrey and two start-ups: CAR-T manufacturing, GMP mesenchymal stem cell production, primary immune cells, CRISPR-Cas9 in CHO cells, organ-on-chip models and potency assays. That background is why I distrust a result that has not been tried against the simplest explanation first.</p><p>Outside the lab I have taught high-school students the statistics behind random walks, chaired the organizing committee of Biolaunch, a bio-entrepreneurship community in Mexico and Latin America, and mentored students since my undergraduate years.</p><ul class="tools" aria-label="Tools and methods"><li class="chip">Python</li><li class="chip">PyTorch</li><li class="chip">scikit-learn</li><li class="chip">R</li><li class="chip">Scanpy</li><li class="chip">Seurat</li><li class="chip">Visium</li><li class="chip">Perturb-seq</li><li class="chip">Metabolomics</li><li class="chip">Proteomics</li><li class="chip">ODE models</li><li class="chip">FBA and ec-FBA</li><li class="chip">Empirical Bayes</li><li class="chip">Permutation and bootstrap inference</li><li class="chip">AlphaFold DB</li><li class="chip">AlphaMissense</li><li class="chip">Boltz-2</li><li class="chip">Flow cytometry</li><li class="chip">CRISPR-Cas9</li><li class="chip">GMP cell production</li><li class="chip">Spanish (native)</li><li class="chip">English</li></ul></div>
+    </div>
+    <div class="timeline" aria-label="Timeline"><div class="tl-year">2022 to now</div><div class="tl-body now"><strong>Texas A&amp;M University School of Medicine, Houston</strong><p>PhD candidate in Biomedical Sciences, George Lab. Cancer metabolism models, spatial and single-cell transcriptomics, perturbation-response prediction. CONAHCYT international doctoral scholarship. GPA 4.0.</p></div><div class="tl-year">2021 to 2022</div><div class="tl-body"><strong>Texas A&amp;M University, College Station</strong><p>Research associate. Ran cell and molecular biology labs; designed and analysed gene-expression studies of neuroprotective compounds.</p></div><div class="tl-year">2019 to 2020</div><div class="tl-body"><strong>Nitrocel Technologies, Monterrey</strong><p>Entrepreneur-researcher at a cell-therapy start-up. Proof of concept for temporal modification of immune checkpoints in CAR-T manufacturing, advised by Marion Brunck.</p></div><div class="tl-year">2019 to 2020</div><div class="tl-body"><strong>Klugwahl, Chihuahua</strong><p>CSO and lab manager. Oversaw GMP mesenchymal stem cell production for regenerative medicine; wrote the expansion and characterisation protocols.</p></div><div class="tl-year">2017 to 2020</div><div class="tl-body"><strong>Tecnológico de Monterrey</strong><p>Coordinator of the Tissue Culture and Mammalian Cell Laboratory (30+ cell lines, student supervision, teaching fellow). Graduate researcher across the NutriOmics, Nano-Sensors and Devices, Nanotechnology for Device Design, and Bioengineering and Synthetic Biology groups.</p></div><div class="tl-year">2016</div><div class="tl-body"><strong>MSc in Biotechnology, Tecnológico de Monterrey</strong><p>Honorable Mention for Excellence (top of program). GPA 3.92. CONACYT scholarship and full-tuition Tec scholarship.</p></div><div class="tl-year">2014</div><div class="tl-body"><strong>BSc in Biotechnology Engineering, Tecnológico de Monterrey</strong><p>Concentration in molecular biology. Honorable Mention for Excellence. GPA 3.97.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="research">
+  <div class="wrap">
+    <div class="panel">
+    <h2>Research</h2>
+    <p class="lede">Six threads, all about the same object: the metabolic state of a cell, how it is set, and what it predicts.</p>
+    <div class="threads"><article class="thread" id="t-spatial"><div class="thread-media"><figure class="figure"><button type="button" class="zoom" data-cap="The atlas at a glance: seven cancers (breast, colorectal, pancreatic, liver, kidney, bile duct, endometrial) with patients, sections and spots per cancer and the platforms profiled; the measurement layers (Visium, Visium HD, CosMx); the cell-type references; the independent cohorts used only for validation; and the per-section workflow from malignant spots and program scores through global and local Moran&#x27;s I to the oxidative-to-stress archetype axis. Villela-Castrejón et al., in preparation. Created in BioRender.com." aria-label="Zoom: Atlas footprint and workflow of the cross-cancer spatial metabolic atlas"><img src="assets/figures/spatial_fig1a.jpg" alt="Atlas footprint and workflow of the cross-cancer spatial metabolic atlas" loading="lazy"></button><figcaption>The atlas at a glance: seven cancers (breast, colorectal, pancreatic, liver, kidney, bile duct, endometrial) with patients, sections and spots per cancer and the platforms profiled; the measurement layers (Visium, Visium HD, CosMx); the cell-type references; the independent cohorts used only for validation; and the per-section workflow from malignant spots and program scores through global and local Moran's I to the oxidative-to-stress archetype axis. Villela-Castrejón et al., in preparation. <span class="zoomhint">Click to enlarge.</span> <span class="credit">Created in BioRender.com</span></figcaption></figure></div><div class="thread-body"><div class="meta"><span class="pill wip">Manuscript in preparation</span><span>George Lab</span></div><h3>A cross-cancer spatial map of tumour metabolism</h3><p>Metabolic programs discovered from expression on sections of breast, colorectal, pancreatic, liver, kidney, endometrial and bile-duct tumours, and tested against standard nulls with sequencing depth, tumour purity and patient as covariates. Tumours build conserved oxidative-anabolic programs inside a hypoxic background, read along one axis in space, and the geography is carried into metastases.</p><div class="figs"><div class="fig"><b>158</b><span>Visium sections</span></div><div class="fig"><b>7</b><span>cancer types</span></div><div class="fig"><b>3</b><span>spatial platforms</span></div><div class="fig"><b>3.38M</b><span>malignant units</span></div></div></div></article><article class="thread" id="t-model"><div class="thread-media"><figure class="figure"><button type="button" class="zoom" data-cap="The coarse-grained model: AMPK, HIF-1 and MYC regulate glycolysis, glucose oxidation, glutamine oxidation and fatty-acid oxidation, with ROS and ATP feeding back. Villela-Castrejón et al., npj Systems Biology and Applications 2025." aria-label="Zoom: Schematic of the AMPK, HIF-1 and MYC metabolic model"><img src="assets/figures/metabolism_model.jpg" alt="Schematic of the AMPK, HIF-1 and MYC metabolic model" loading="lazy"></button><figcaption>The coarse-grained model: AMPK, HIF-1 and MYC regulate glycolysis, glucose oxidation, glutamine oxidation and fatty-acid oxidation, with ROS and ATP feeding back. Villela-Castrejón et al., npj Systems Biology and Applications 2025. <span class="zoomhint">Click to enlarge.</span></figcaption></figure></div><div class="thread-body"><div class="meta"><span class="pill on">Published 2025</span><span>npj Systems Biology and Applications, first author</span></div><h3>A dynamical model of cancer metabolism along the catabolic-anabolic axes</h3><p>Coupled AMPK, HIF-1 and MYC signalling with glucose, fatty-acid and glutamine metabolism in a system of ODEs. The model's stable metabolic phenotypes map onto patient data and separate survival in hepatocellular carcinoma. Presented at AACR 2024, BMES 2024 and the Moffitt IMO Workshop.</p><div class="linkrow"><a href="https://doi.org/10.1038/s41540-025-00525-x">Paper (DOI)</a><a href="https://github.com/Javi-cas/Simulations_AMPK_HIF-1">Simulation code</a></div></div></article><article class="thread" id="t-dormancy"><div class="thread-media"><div class="schematic"><svg viewBox="0 0 300 120" role="img" aria-hidden="true">
+<g class="sk-line" stroke-width="1.2" fill="none"><path d="M60 96 L250 96"/><path d="M60 96 L150 18"/><path d="M60 96 L252 44"/></g>
+<g class="sk-cat" opacity=".85"><circle cx="120" cy="92" r="3"/><circle cx="168" cy="88" r="3"/><circle cx="210" cy="95" r="3"/><circle cx="90" cy="70" r="3"/><circle cx="130" cy="40" r="3"/><circle cx="150" cy="60" r="3"/><circle cx="205" cy="55" r="3"/><circle cx="180" cy="72" r="3"/><circle cx="235" cy="60" r="3"/><circle cx="110" cy="55" r="3"/></g>
+<text x="254" y="100" font-size="8.5">dormancy</text><text x="142" y="13" font-size="8.5" text-anchor="middle">growth execution</text><text x="256" y="41" font-size="8.5">persistence</text>
+<text x="60" y="110" font-size="8">76 published comparisons, projected</text></svg></div></div><div class="thread-body"><div class="meta"><span class="pill wip">Manuscript in revision</span><span>Cross-study transcriptomics</span></div><h3>A cancer dormancy atlas</h3><p>Dormancy, growth execution and drug-tolerant persistence are related but non-equivalent transcriptomic dimensions. A cross-study analysis of 76 published comparisons separates the three and shows where the usual dormancy signatures conflate them.</p><div class="figs"><div class="fig"><b>76</b><span>published comparisons</span></div></div></div></article><article class="thread" id="t-flux"><div class="thread-media"><div class="schematic"><svg viewBox="0 0 300 120" role="img" aria-hidden="true">
+<g class="sk-line" stroke-width="1.2" fill="none"><path d="M30 60 L270 60"/><path d="M90 60 Q150 15 210 60"/><path d="M90 60 Q150 105 210 60"/></g>
+<g class="sk-catline" stroke-width="2.4" fill="none"><path d="M30 60 L90 60"/><path d="M90 60 Q150 15 210 60"/><path d="M210 60 L270 60"/></g>
+<g class="sk-cell" stroke-width="1.2"><circle cx="30" cy="60" r="6"/><circle cx="90" cy="60" r="6"/><circle cx="210" cy="60" r="6"/><circle cx="270" cy="60" r="6"/></g>
+<g class="sk-muted" stroke-width="1.4"><circle cx="150" cy="60" r="7" fill="none"/><path d="M145 65 L155 55"/></g>
+<text x="150" y="16" font-size="8.5" text-anchor="middle">predicted reroute</text>
+<text x="150" y="112" font-size="8" text-anchor="middle">closed by redundancy and load</text>
+<text x="150" y="84" font-size="8" text-anchor="middle">knockdown</text></svg></div></div><div class="thread-body"><div class="meta"><span class="pill wip">Manuscript in preparation</span><span>Abstract submitted, AACR 2027</span></div><h3>Redundancy and load restrict predicted metabolic rerouting to the respiratory chain</h3><p>Where does metabolic flux go when a bioenergetic gene is knocked down? Constraint-based flux solutions on Human-GEM 2.1.1, with expression mapped through GPRs and growth calibrated per line, computed across six human lines from four CRISPRi screens, then tested for rerouting against two nulls at once, a control null and a permutation null, both at q below 0.05, with every call required to be identifiable under flux variability analysis and not merely tracking growth. Of the candidate rerouting events that reach the null stage, 82 respiratory and 41 non-respiratory, 31 respiratory survive and none of the non-respiratory ones do. The surviving calls reduce to 19 unique predicted rerouting events at the primary calibration, and 17 and 16 when the growth fraction is swept to 0.3 and 0.7, so the result is not an artefact of where the calibration sits. Redundancy and load, not topology, are what close the alternative routes. A nine-subunit knockdown panel on complex III in K562 and a per-line comparison against DepMap essentiality test the same claim from the other direction. The control growth fraction was fixed twelve days before the first census was computed, and null-stage attrition is reported by class, so a reader can see the non-respiratory classes go to zero rather than being filtered out quietly. These are model-derived flux solutions, not measured fluxes.</p><div class="figs"><div class="fig"><b>6</b><span>cell lines</span></div><div class="fig"><b>4</b><span>CRISPRi screens</span></div><div class="fig"><b>19</b><span>unique predicted reroutes</span></div><div class="fig"><b>0 of 41</b><span>non-respiratory candidates survive</span></div></div><div class="stack">Python, cobrapy, HiGHS, Human-GEM 2.1.1. Release package: tier A regenerates every number downstream of the pre-filter tables in about a minute and checks the twelve supplementary tables byte for byte.</div></div></article><article class="thread" id="t-cart"><div class="thread-media"><figure class="figure"><button type="button" class="zoom" data-cap="What varies between CAR-T infusion products is how they were made, not who they came from. (a) Three cohorts, parallel manufacturing, one measurement. (b) The second axis of between-product variation separates axi-cel from tisa-cel and holds inside a single batch. (c) A reproducible axis needs about 50 products. (d) None of it predicts response. Villela-Castrejón et al., in preparation. Created in BioRender.com." aria-label="Zoom: Graphical abstract: what varies between CAR-T infusion products is how they were made, not who they came from"><img src="assets/figures/cart_abstract.jpg" alt="Graphical abstract: what varies between CAR-T infusion products is how they were made, not who they came from" loading="lazy"></button><figcaption>What varies between CAR-T infusion products is how they were made, not who they came from. (a) Three cohorts, parallel manufacturing, one measurement. (b) The second axis of between-product variation separates axi-cel from tisa-cel and holds inside a single batch. (c) A reproducible axis needs about 50 products. (d) None of it predicts response. Villela-Castrejón et al., in preparation. <span class="zoomhint">Click to enlarge.</span> <span class="credit">Created in BioRender.com</span></figcaption></figure></div><div class="thread-body"><div class="meta"><span class="pill wip">Manuscript in preparation</span><span>George Lab</span></div><h3>Manufacturing, not patient biology, in CAR-T infusion products</h3><p>Whether a CAR-T product's transcriptomic state predicts whether the patient responds. Across three cohorts the axis that reproduces between products is the manufacturing batch, not the patient, and the product-type axis separates at p = 0.0001 even within a single batch. No score of product state transfers. An L2 logistic model on pseudobulk principal components reaches 0.684 in inner cross-validation and 0.524 on a held-out cohort; a gated-attention multiple-instance model trained on the same 54 products reaches 0.730 and 0.483. Split-half reproducibility of the product-state axis runs 0.43 to 0.90 depending on cohort size, which is the ceiling any such score has to clear and explains why none of them do. CD8 fraction is the one quantity that behaves consistently across all three.</p><div class="figs"><div class="fig"><b>3</b><span>cohorts</span></div><div class="fig"><b>24, 31, 57</b><span>products</span></div><div class="fig"><b>0.483</b><span>held-out AUC</span></div><div class="fig"><b>0.90</b><span>within-cohort ceiling</span></div></div></div></article><article class="thread" id="t-tcell"><div class="thread-media"><figure class="figure"><button type="button" class="zoom" data-cap="The regulatory map behind the T-cell model: nutrient transporters (GLUT1, ASCT2, LAT1, xCT, MCT1), the mTORC1, AMPK, MYC, HIF-1 and GCN2 axes, TCR and checkpoint inputs, and the competition with tumour or myeloid cells for tryptophan and arginine. Created in BioRender.com." aria-label="Zoom: Pathway diagram of T-cell metabolic regulation in the tumour microenvironment"><img src="assets/figures/tcell_biorender.jpg" alt="Pathway diagram of T-cell metabolic regulation in the tumour microenvironment" loading="lazy"></button><figcaption>The regulatory map behind the T-cell model: nutrient transporters (GLUT1, ASCT2, LAT1, xCT, MCT1), the mTORC1, AMPK, MYC, HIF-1 and GCN2 axes, TCR and checkpoint inputs, and the competition with tumour or myeloid cells for tryptophan and arginine. <span class="zoomhint">Click to enlarge.</span> <span class="credit">Created in BioRender.com</span></figcaption></figure></div><div class="thread-body"><div class="meta"><span class="pill wip">In progress</span><span>George Lab</span></div><h3>T-cell metabolism and competition for nutrients</h3><p>An ODE model of naive, effector and memory T-cell states, extended to T cells and tumour cells competing for shared glucose and glutamine. Built to ask when immunometabolic interventions change the outcome and when they only move the clock.</p></div></article></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="wrap">
+    <div class="panel">
+    <h2>Projects</h2>
+    <p class="lede">Self-contained computational projects, labelled by where they actually stand. Negative results are listed because they cost as much as the positive ones.</p>
+    <article class="thread featured"><div class="thread-media"><figure class="figure"><button type="button" class="zoom" data-cap="A conditional VAE for zero-shot CRISPRi prediction, the deep-learning track run alongside the challenge entry. (A) Four human cell lines of control cells and CRISPRi knockdowns, about 1.6 million cells and 18,000 knockdowns. (B) 3.95M parameters: context and gene encoders, a shift network that predicts the knockdown shift, a decoder that emits predicted counts. (C) Tested zero-shot on Jurkat and HepG2, never seen in training. (D) It did not clear its shuffled-label null on both folds (Spearman 0.010 and 0.004, against 0.125 and 0.121 for the transfer ensemble that became the shipped entry): it learned the average response, not the gene. Run F2, 2026-10-23, run under Amendment 2 of the rule book; not part of the competition entry. Created in BioRender.com." aria-label="Zoom: A conditional VAE for zero-shot CRISPRi prediction, with its result against the null"><img src="assets/figures/javicell_biorender.jpg" alt="A conditional VAE for zero-shot CRISPRi prediction, with its result against the null" loading="lazy"></button><figcaption>A conditional VAE for zero-shot CRISPRi prediction, the deep-learning track run alongside the challenge entry. (A) Four human cell lines of control cells and CRISPRi knockdowns, about 1.6 million cells and 18,000 knockdowns. (B) 3.95M parameters: context and gene encoders, a shift network that predicts the knockdown shift, a decoder that emits predicted counts. (C) Tested zero-shot on Jurkat and HepG2, never seen in training. (D) It did not clear its shuffled-label null on both folds (Spearman 0.010 and 0.004, against 0.125 and 0.121 for the transfer ensemble that became the shipped entry): it learned the average response, not the gene. Run F2, 2026-10-23, run under Amendment 2 of the rule book; not part of the competition entry. <span class="zoomhint">Click to enlarge.</span> <span class="credit">Created in BioRender.com</span></figcaption></figure></div><div class="thread-body"><div class="meta"><span class="pill on">Final entry submitted, Oct 2026</span><span>2026</span></div><h3>JaviCell, Arc Virtual Cell Challenge 2026</h3><p>Zero-shot prediction of single-cell CRISPRi responses in a cell type never seen in training. Per-knockdown effects are borrowed from five public screens, combined by inverse-variance consensus with adaptive shrinkage, partially pooled across knockdowns, then written onto the target context's own control cells and emitted as 400 cells per knockdown. Run under a frozen rule book with gates set in advance and a signed deviation log, and the log is the interesting part. The selected recipe failed to build in one of the three final contexts after 200 of 300 targets, deterministically, and the automatic fallback was refused by a checker whose rule predated one of the recipe's own parameters. The final entry therefore ships the fallback recipe across all three contexts with one knockdown, E/SLC30A1, byte-copied from a pinned earlier build, under a deviation signed before the build rather than after it. Final entry submitted 25 October 2026 and scored on the test partition.</p><div class="figs"><div class="fig"><b>360,000</b><span>cells</span></div><div class="fig"><b>18,533</b><span>genes</span></div><div class="fig"><b>300 × 3</b><span>knockdowns × contexts</span></div><div class="fig"><b>2.07B</b><span>nonzeros</span></div></div><div class="stack">Python, PyTorch, Scanpy, vcc CLI</div></div></article>
+    <div class="projects"><article class="project"><div class="meta"><span class="pill wip">Manuscript in preparation</span><span>2026</span></div><h3>LRJ, a linear-response model of knockdown effects</h3><p>A dynamical model with learned low-rank regulatory feedback, stable by construction (bounded gains, spectral-norm constraint). Trained on 15,430 pseudobulk knockdown profiles across 10 contexts and evaluated leave-one-cell-line-out. On held-out lines it beat a 3.9M-parameter conditional VAE (knockdown-specific Spearman 0.06 to 0.12 vs about 0, 95% CIs exclude zero) and passed the shuffled-label validity check the VAE failed.</p><div class="stack">Python, PyTorch</div></article><article class="project"><div class="meta"><span class="pill on">Finished</span><span>2026</span></div><h3>Benchmarks of AlphaFold-era tools</h3><p>Four tests of derived structural features against simple baselines. Predicted enzyme kcats (DLKcat re-implemented, 19,733 Human-GEM reaction-enzyme pairs) made enzyme-constrained FBA better at K562 essentiality than plain FBA (+0.05 AUC, 95% CI 0.01 to 0.09). AlphaFold-Multimer interaction confidence against Perturb-seq (594,750 pairs), AlphaMissense somatic selection (147,346 TCGA mutations) and AlphaFold pocket druggability (543 proteins) were all negative under pre-set bars while positive controls passed.</p><div class="stack">Python, COBRApy, Human-GEM, AlphaFold DB</div></article><article class="project"><div class="meta"><span class="pill on">Finished, preprint in preparation</span><span>2026</span></div><h3>boltzbench, does Boltz-2 know its regulators?</h3><p>A CPU benchmark of whether Boltz-2 ranks a human metabolic enzyme's known allosteric regulator above six decoys. v1 came out positive but uninformative, since most of its complexes are probably in the training data. v2 rebuilt the panel around that problem: 32 enzyme-metabolite pairs with no PDB co-structure at any deposition date and no deposited binding measurement, analysis plan hashed before pair selection. It passed, 0.766 against a 0.599 bar, p below 1e-5. Then two cheap post-hoc checks took it apart. Ranking the same seven molecules by molecular weight alone, with no protein and no model, scores 0.854. On the 24 pairs weight already solves, Boltz-2 scores 0.826; on the 8 it does not, 0.583, indistinguishable from chance. A literature audit of the positive class then found 14 of the 32 regulations do not hold as labelled: four invalid for the human protein or not regulations at all, three keyed to the wrong subunit, seven resting on non-human evidence or a different mechanism. Both post-hoc findings survive the audit. The lesson is about benchmark construction rather than about Boltz-2: a fixed analysis plan disciplined the statistic, the null and the selection rule, and protected neither the decoy panel nor the labels.</p><div class="figs"><div class="fig"><b>32</b><span>pairs</span></div><div class="fig"><b>164</b><span>complexes</span></div><div class="fig"><b>0.854 vs 0.766</b><span>weight alone vs model</span></div><div class="fig"><b>14 of 32</b><span>mislabelled</span></div></div><div class="stack">Boltz-2, Python, runs on a laptop CPU, 6.4 days, no GPU</div></article><article class="project"><div class="meta"><span class="pill wip">Package in development</span><span>2026</span></div><h3>metab-states</h3><p>A small Python package that scores metabolic state signatures from bulk or single-cell RNA-seq: normalised expression, gene-level z-scores, refined signature gene sets, signature scores, optional state labels and gene-set coverage summaries. Written so the spatial and single-cell analyses share one scoring path.</p><div class="stack">Python, pandas, AnnData</div></article><article class="project"><div class="meta"><span class="pill on">Public code</span><span>2023 to 2026</span></div><h3>Open simulation code</h3><p>The ODE simulations behind the cancer metabolism paper (AMPK, HIF-1 and MYC coupled to nutrient pathways) and a Python implementation of an epithelial-mesenchymal transition model used to classify phenotypic states.</p><div class="linkrow"><a href="https://github.com/Javi-cas/Simulations_AMPK_HIF-1">Simulations_AMPK_HIF-1</a><a href="https://github.com/Javi-cas/EMT-Model-Python-">EMT-Model-Python</a><a href="https://github.com/Javi-cas">All repositories</a></div><div class="stack">Python, NumPy, SciPy</div></article></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="publications">
+  <div class="wrap">
+    <div class="panel">
+    <h2>Publications</h2>
+    <p class="lede">Twenty peer-reviewed articles and two book chapters since 2017, plus four manuscripts in the pipeline. Early work is bench science; the recent work is computational.</p>
+    <ul class="pipeline" aria-label="Manuscripts in progress"><li><span class="pill wip">In revision</span><span>Cancer dormancy, growth execution, and drug-tolerant persistence are related but non-equivalent transcriptomic dimensions.</span></li><li><span class="pill wip">Under review</span><span>Bella-Echeverría P, Urrutia-Baca V, Villela-Castrejón J, et al. Maternal nutritional status induces changes in adipokine profiles and modifies offspring gut microbiota at one month of age. <em>Gut Microbes</em>.</span></li><li><span class="pill wip">In preparation</span><span>A cross-cancer spatial map of tumour metabolism.</span></li><li><span class="pill wip">In preparation</span><span>Four tests of derived features against simple baselines: linear-response knockdown models, enzyme kcats, AlphaFold interactions and druggable pockets.</span></li></ul>
+    <div class="filters" role="group" aria-label="Filter publications"><button type="button" data-filter="all" aria-pressed="true">All</button><button type="button" data-filter="comp" aria-pressed="false">Computational</button><button type="button" data-filter="selected" aria-pressed="false">Selected publications</button><button type="button" data-filter="chapter" aria-pressed="false">Book chapters</button></div>
+    <div class="table-wrap"><table class="pubs"><thead><tr><th>Year</th><th>Title</th><th>Link</th></tr></thead><tbody id="pubBody"><tr data-tags="first comp selected"><td class="year">2025</td><td class="title"><span class="t">Computational modeling of cancer cell metabolism along the catabolic-anabolic axes</span><span class="v"><b>Villela-Castrejón J</b>, Levine H, Onuchic JN, George JT, Jia D. npj Systems Biology and Applications 11, 46</span></td><td class="link"><a href="https://doi.org/10.1038/s41540-025-00525-x">DOI</a></td></tr><tr data-tags="co comp"><td class="year">2025</td><td class="title"><span class="t">Authorship trends and gender concordance in surgical research</span><span class="v">Smith B, <b>Villela-Castrejón J</b>, et al., Weaver L. Journal of Surgical Research 312, 148-154</span></td><td class="link"><a href="https://doi.org/10.1016/j.jss.2025.06.001">DOI</a></td></tr><tr data-tags="co"><td class="year">2022</td><td class="title"><span class="t">Application of protein fractions from selenized sprouted chickpeas as emulsifying agents and evaluation of their antioxidant properties</span><span class="v">Hernández-Grijalva MI, Serrano-Sandoval SN, et al., <b>Villela-Castrejón J</b>, Guardado-Félix D. Food and Bioproducts Processing 136, 59-66</span></td><td class="link"><a href="https://doi.org/10.1016/j.fbp.2022.09.010">DOI</a></td></tr><tr data-tags="co selected"><td class="year">2021</td><td class="title"><span class="t">Opuntia ficus-indica extract and isorhamnetin-3-O-glucosyl-rhamnoside diminish tumor growth of colon cancer cells xenografted in immune-suppressed mice through the activation of apoptosis intrinsic pathway</span><span class="v">Antunes-Ricardo M, Guardado-Félix D, et al., <b>Villela-Castrejón J</b>, Serna-Saldívar SO. Plant Foods for Human Nutrition 76, 434-441</span></td><td class="link"><a href="https://doi.org/10.1007/s11130-021-00934-3">DOI</a></td></tr><tr data-tags="co"><td class="year">2021</td><td class="title"><span class="t">Unconventional and facile production of a stimuli-responsive multifunctional system for simultaneous drug delivery and environmental remediation</span><span class="v">Mamidi N, Delgadillo RMV, <b>Villela-Castrejón J</b>. Environmental Science: Nano 8, 2081-2097</span></td><td class="link"><a href="https://doi.org/10.1039/D1EN00354B">DOI</a></td></tr><tr data-tags="co"><td class="year">2021</td><td class="title"><span class="t">Manufacture and mechanical properties of knee implants using SWCNTs/UHMWPE composites</span><span class="v">Diabb J, Leija H, Segura E, Morales R, Mamidi N, <b>Villela-Castrejón J</b>, Elías-Zúñiga A. Journal of the Mechanical Behavior of Biomedical Materials</span></td><td class="link"><a href="https://doi.org/10.1016/j.jmbbm.2021.104554">DOI</a></td></tr><tr data-tags="co selected"><td class="year">2020</td><td class="title"><span class="t">Synergistic combinations of curcumin, sulforaphane, and dihydrocaffeic acid against human colon cancer cells</span><span class="v">Santana-Gálvez J, <b>Villela-Castrejón J</b>, Serna-Saldívar S, Cisneros-Zevallos L, Jacobo-Velázquez DA. International Journal of Molecular Sciences 21, 3108</span></td><td class="link"><a href="https://doi.org/10.3390/ijms21093108">DOI</a></td></tr><tr data-tags="co"><td class="year">2020</td><td class="title"><span class="t">Engineering and evaluation of forcespun functionalized carbon nano-onions reinforced poly(ε-caprolactone) composite nanofibers for pH-responsive drug release</span><span class="v">Mamidi N, <b>Villela-Castrejón J</b>, Elías-Zúñiga A. Materials Science and Engineering C</span></td><td class="link"><a href="https://doi.org/10.1016/j.msec.2020.110928">DOI</a></td></tr><tr data-tags="co"><td class="year">2020</td><td class="title"><span class="t">Anticancer potential of dihydrocaffeic acid: a chlorogenic acid metabolite</span><span class="v">Santana-Gálvez J, <b>Villela-Castrejón J</b>, Serna-Saldívar S, Jacobo-Velázquez DA. CyTA, Journal of Food</span></td><td class="link"><a href="https://doi.org/10.1080/19476337.2020.1743762">DOI</a></td></tr><tr data-tags="co"><td class="year">2020</td><td class="title"><span class="t">Rational design and engineering of carbon nano-onions reinforced natural protein nanocomposite hydrogels for biomedical applications</span><span class="v">Mamidi N, <b>Villela-Castrejón J</b>. Journal of the Mechanical Behavior of Biomedical Materials</span></td><td class="link"><a href="https://doi.org/10.1016/j.jmbbm.2020.103696">DOI</a></td></tr><tr data-tags="co"><td class="year">2020</td><td class="title"><span class="t">Engineering of functionalized carbon nano-onions reinforced nanocomposites: fabrication, biocompatibility and mechanical properties</span><span class="v">Mamidi N, Martínez Gamero R, <b>Villela-Castrejón J</b>, Elías-Zúñiga A. Journal of Materials Research</span></td><td class="link"><a href="https://doi.org/10.1557/jmr.2020.23">DOI</a></td></tr><tr data-tags="chapter"><td class="year">2020</td><td class="title"><span class="t">Dietary fiber and cancer</span><span class="v">Antunes-Ricardo M, <b>Villela-Castrejón J</b>, Gutiérrez-Uribe JA, Serna-Saldívar SO. In: Science and Technology of Fibers in Food Systems. Springer</span></td><td class="link"><a href="https://doi.org/10.1007/978-3-030-38654-2_11">DOI</a></td></tr><tr data-tags="co"><td class="year">2019</td><td class="title"><span class="t">Advances in the processing of UHMWPE-TiO2 to manufacture medical prostheses via SPIF</span><span class="v">Ortiz-Hernández R, Ulloa-Castillo N, Diabb-Zavala J, Estrada-Vega A, Islas-Urbano J, <b>Villela-Castrejón J</b>, Elías-Zúñiga A. Polymers 11, 2022</span></td><td class="link"><a href="https://doi.org/10.3390/polym11122022">DOI</a></td></tr><tr data-tags="co"><td class="year">2019</td><td class="title"><span class="t">Effects of solid-state fungi fermentation on phenolic content, antioxidant properties and fiber composition of lime cooked maize by-product (nejayote)</span><span class="v">Acosta-Estrada B, <b>Villela-Castrejón J</b>, Pérez-Carrillo E, Gutiérrez-Uribe J. Journal of Cereal Science</span></td><td class="link"><a href="https://doi.org/10.1016/j.jcs.2019.102837">DOI</a></td></tr><tr data-tags="co"><td class="year">2019</td><td class="title"><span class="t">Development of ultra-high molecular weight polyethylene-functionalized carbon nano-onions composites for biomedical applications</span><span class="v">Mamidi N, Martínez Gamero R, <b>Villela-Castrejón J</b>, Elías-Zúñiga A. Diamond and Related Materials</span></td><td class="link"><a href="https://doi.org/10.1016/j.diamond.2019.05.020">DOI</a></td></tr><tr data-tags="co"><td class="year">2019</td><td class="title"><span class="t">Changes in cellular antioxidant and anti-inflammatory activity after 12 months storage of roasted maize-based beverages supplemented with nejayote solids</span><span class="v">Buitimea-Cantúa N, Antunes-Ricardo M, <b>Villela-Castrejón J</b>, Gutiérrez-Uribe J. Journal of Cereal Science</span></td><td class="link"><a href="https://doi.org/10.1016/j.jcs.2019.102807">DOI</a></td></tr><tr data-tags="co"><td class="year">2018</td><td class="title"><span class="t">Phytochemical profiles, dietary fiber and baking performance of wheat bread formulations supplemented with Roselle (Hibiscus sabdariffa)</span><span class="v">Mata-Ramírez D, Serna-Saldívar SO, <b>Villela-Castrejón J</b>, et al. Journal of Food Measurement and Characterization</span></td><td class="link"><a href="https://doi.org/10.1007/s11694-018-9883-4">DOI</a></td></tr><tr data-tags="first selected"><td class="year">2017</td><td class="title"><span class="t">Bioavailability and anti-inflammatory activity of phenolic acids found in spray-dried nejayote after its in vitro digestion</span><span class="v"><b>Villela-Castrejón J</b>, Antunes-Ricardo M, Gutiérrez-Uribe J. Journal of Functional Foods</span></td><td class="link"><a href="https://doi.org/10.1016/j.jff.2017.09.058">DOI</a></td></tr><tr data-tags="first"><td class="year">2017</td><td class="title"><span class="t">Microencapsulation of corn wastewater (nejayote) phytochemicals by spray drying and their release under simulated gastrointestinal digestion</span><span class="v"><b>Villela-Castrejón J</b>, Acosta-Estrada BA, Gutiérrez-Uribe JA. Journal of Food Science</span></td><td class="link"><a href="https://doi.org/10.1111/1750-3841.13762">DOI</a></td></tr><tr data-tags="chapter"><td class="year">2017</td><td class="title"><span class="t">Bound phenolics in foods</span><span class="v">Santos-Zea L, <b>Villela-Castrejón J</b>, Gutiérrez-Uribe JA. In: Bioactive Molecules in Food, Reference Series in Phytochemistry. Springer</span></td><td class="link"><a href="https://doi.org/10.1007/978-3-319-54528-8_13-1">DOI</a></td></tr><tr data-tags="co"><td class="year">2017</td><td class="title"><span class="t">Cytotoxicity evaluation of unfunctionalized multiwall carbon nanotubes-ultrahigh molecular weight polyethylene nanocomposites</span><span class="v">Mamidi N, Leija HM, Diabb JM, Lopez Romo I, Hernandez D, <b>Villela-Castrejón J</b>, et al., Elías-Zúñiga A. Journal of Biomedical Materials Research Part A</span></td><td class="link"><a href="https://doi.org/10.1002/jbm.a.36168">DOI</a></td></tr><tr data-tags="co"><td class="year">2017</td><td class="title"><span class="t">Fabrication of gelatin-poly(epichlorohydrin-co-ethylene oxide) fiber scaffolds by Forcespinning for tissue engineering and drug release</span><span class="v">Mamidi N, Leija-Gutiérrez H, <b>Villela-Castrejón J</b>, Isenhart L, Barrera EV, Elías-Zúñiga A. MRS Communications</span></td><td class="link"><a href="https://doi.org/10.1557/mrc.2017.117">DOI</a></td></tr></tbody></table></div><p class="count" id="pubCount"></p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="talks">
+  <div class="wrap">
+    <div class="panel">
+    <div class="cols">
+      <div><h2>Presentations</h2><ul class="list"><li><span class="y">2026</span><div>Metabolic transition analysis from dormancy to awakening in breast cancer<em>Poster, AACR Annual Meeting 2026</em></div></li><li><span class="y">2025</span><div>Longitudinal and multi-regional analysis of cancer phenotypes in hepatocellular carcinoma and intrahepatic cholangiocarcinoma<em>Poster, AACR Annual Meeting, Chicago</em></div></li><li><span class="y">2024</span><div>Integrating catabolic and anabolic pathways to predict patient survival in hepatocellular carcinoma<em>Poster, IMO Workshop 12 on Toxicity, Moffitt Cancer Center, Tampa</em></div></li><li><span class="y">2024</span><div>A mathematical model of cancer metabolism predicts survival differences in hepatocellular carcinoma<em>Poster, BMES Annual Meeting, Baltimore</em></div></li><li><span class="y">2024</span><div>A phenotypic model for cancer metabolism<em>Poster, AACR Annual Meeting, San Diego</em></div></li><li><span class="y">2019</span><div>Synergistic combination of curcumin, sulforaphane, and dihydrocaffeic acid against colon cancer cells<em>Poster, 33rd EFFoST International Conference, Rotterdam</em></div></li><li><span class="y">2018</span><div>Mechanical manipulation of Caco-2 cell behavior on microfluidic platforms<em>ACS Spring National Meeting, Orlando</em></div></li><li><span class="y">2016</span><div>Anti-inflammatory activity of ferulic acid present in the digested fraction of nejayote powder<em>Bioiberoamérica 2016, Salamanca</em></div></li></ul></div>
+      <div><h2>Honors and support</h2><ul class="list"><li><span class="y">2024</span><div>First runner-up, a US$50,000 award to keep developing a predictive model of adverse events in radiation oncology</div></li><li><span class="y">2024</span><div>Travel award, 12th IMO Workshop on Toxicity<em>Moffitt Cancer Center, Center of Excellence for Evolutionary Therapy, NCI Cancer Systems Biology Consortium</em></div></li><li><span class="y">2023</span><div>CONAHCYT international doctoral scholarship, four years</div></li><li><span class="y">2020</span><div>“10 Research Projects to Transform Mexico”, for the selenium-against-colon-cancer project<em>Tecnológico de Monterrey</em></div></li><li><span class="y">2019</span><div>First place, Conexión Tec, linking student projects with industry</div></li><li><span class="y">2016</span><div>Honorable Mention for Excellence, MSc<em>Tec de Monterrey full-tuition scholarship and CONACYT scholarship, 2015</em></div></li><li><span class="y">2014</span><div>Honorable Mention for Excellence, BSc</div></li></ul><h3>Teaching and community</h3><ul class="list"><li><span class="y">2023</span><div>Instructor, Aggie STEM summer camp<em>Statistics in biology and random walks, for high-school students</em></div></li><li><span class="y">2019</span><div>Chair, organizing committee of Biolaunch, to 2021<em>Bio-entrepreneurship community for Mexico and Latin America</em></div></li><li><span class="y">2019</span><div>Teaching fellow, Tecnológico de Monterrey, to 2020<em>Cell culture lab, biotechnology of nutraceuticals, biomimetics</em></div></li></ul></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="panel">
+    <div class="contact">
+      <div>
+        <h2>Contact</h2>
+        <p class="lede" style="margin-bottom:0">I finish my PhD in May 2027 and am looking for research roles where models of biology get tested hard: AI for science, computational oncology, immunometabolism. If that is your team, write to me.</p>
+        <div class="copybox"><span id="email">javi.cas@tamu.edu</span><button type="button" id="copyBtn">Copy</button></div>
+      </div>
+      <ul class="contact-links"><li><span class="k">GitHub</span><a href="https://github.com/Javi-cas">github.com/Javi-cas</a></li><li><span class="k">Google Scholar</span><a href="https://scholar.google.com/citations?user=PkvxqOkAAAAJ&hl=en">Citations and profile</a></li><li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/javi-cas/en">linkedin.com/in/javi-cas</a></li><li><span class="k">ResearchGate</span><a href="https://www.researchgate.net/profile/Javier-Villela-Castrejon">Profile</a></li><li><span class="k">CV</span><a href="assets/CV_Villela-Castrejon.pdf">Download the PDF</a></li><li><span class="k">Lab</span><a href="https://georgeresearchgroup.org/">George Research Group, Texas A&amp;M University, Houston</a></li></ul>
+    </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap"><div class="panel" style="display:flex;flex-wrap:wrap;gap:.8rem 2rem;justify-content:space-between">
+    <p>Javier Villela-Castrejón, 2026. Parts of this site were drafted with Claude and edited by me. The network behind the page is a toy flux simulation drawn live on canvas.</p>
+    <a href="#top">Back to top</a>
+  </div></div>
+</footer>
+  </div>
+</div>
+<aside class="hud" id="hud" aria-label="Network console">
+  <h4>Flux network, live<button type="button" class="x" id="hudClose" aria-label="Close console">&times;</button></h4>
+  <label><span>Glucose</span><input type="range" id="sGlu" min="0" max="100" value="60"><span class="v" id="vGlu">60</span></label>
+  <label><span>Oxygen</span><input type="range" id="sOxy" min="0" max="100" value="70"><span class="v" id="vOxy">70</span></label>
+  <label class="q"><span>Glutamine</span><input type="range" id="sGln" min="0" max="100" value="50"><span class="v" id="vGln">50</span></label>
+  <div class="row"><button type="button" id="bPause">Pause</button><button type="button" id="bReset">Reset</button><button type="button" id="bRandom">Shuffle</button></div>
+  <p class="read"><b id="rNodes">0</b> metabolites, <b id="rEdges">0</b> reactions, <b id="rFlux">0</b> mean flux, <b id="rKd">0</b> knocked down</p>
+  <p class="hint">Space pauses. Click open space to knock a node down, click again to bring it back, Reset restores all.</p>
+</aside>
+<button class="hud-toggle" id="hudToggle" type="button" aria-expanded="false" aria-controls="hud"><span class="live" aria-hidden="true"></span>Flux network, live</button>
+<dialog id="lightbox" class="lightbox" aria-label="Enlarged figure"><div class="lb-inner"><img id="lbImg" src="" alt=""><p id="lbCap"></p><button type="button" id="lbClose" class="lb-close">Close</button></div></dialog>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Theme toggle. Follows the system unless the visitor picks one. */
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  var mqLight = window.matchMedia('(prefers-color-scheme: light)');
+  function current(){ return root.getAttribute('data-theme') || (mqLight.matches ? 'light' : 'dark'); }
+  function label(){ if (btn) btn.textContent = current() === 'dark' ? 'Light mode' : 'Dark mode'; }
+  try { var saved = localStorage.getItem('theme'); if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved); } catch(e){}
+  label();
+  if (btn) btn.addEventListener('click', function(){
+    var next = current() === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e){}
+    label(); window.dispatchEvent(new Event('themechange'));
+  });
+  if (mqLight.addEventListener) mqLight.addEventListener('change', function(){ label(); window.dispatchEvent(new Event('themechange')); });
+
+  /* Copy email. */
+  var copyBtn = document.getElementById('copyBtn'), email = document.getElementById('email');
+  if (copyBtn && email) copyBtn.addEventListener('click', function(){
+    var text = email.textContent;
+    function done(){ copyBtn.textContent = 'Copied'; setTimeout(function(){ copyBtn.textContent = 'Copy'; }, 1800); }
+    function fallback(){ var r = document.createRange(); r.selectNodeContents(email); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent = 'Selected'; setTimeout(function(){ copyBtn.textContent = 'Copy'; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  });
+
+  /* Publication filter. */
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#pubBody > *'));
+  var count = document.getElementById('pubCount');
+  var filterBtns = Array.prototype.slice.call(document.querySelectorAll('.filters button'));
+  function applyFilter(f){
+    var n = 0;
+    rows.forEach(function(r){ var show = f === 'all' || (' ' + r.getAttribute('data-tags') + ' ').indexOf(' ' + f + ' ') >= 0; r.hidden = !show; if (show) n++; });
+    if (count) count.textContent = n === rows.length ? rows.length + ' items' : n + ' of ' + rows.length + ' items';
+    filterBtns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-filter') === f ? 'true' : 'false'); });
+  }
+  filterBtns.forEach(function(b){ b.addEventListener('click', function(){ applyFilter(b.getAttribute('data-filter')); }); });
+  if (rows.length) applyFilter('all');
+
+  /* Active section in the nav. */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('[data-nav] a'));
+  if ('IntersectionObserver' in window && navLinks.length) {
+    var map = {};
+    navLinks.forEach(function(a){ var id = a.getAttribute('href').slice(1); (map[id] = map[id] || []).push(a); });
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting) { navLinks.forEach(function(a){ a.classList.remove('active'); }); (map[en.target.id] || []).forEach(function(a){ a.classList.add('active'); }); } });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    Object.keys(map).forEach(function(id){ var el = document.getElementById(id); if (el) obs.observe(el); });
+  }
+
+  /* Figure lightbox. */
+  var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCap = document.getElementById('lbCap'), lbClose = document.getElementById('lbClose');
+  if (lb && lb.showModal) {
+    Array.prototype.forEach.call(document.querySelectorAll('.zoom'), function(z){
+      z.addEventListener('click', function(){ var im = z.querySelector('img'); lbImg.src = im ? im.src : ''; lbImg.alt = z.getAttribute('aria-label'); lbCap.textContent = z.getAttribute('data-cap'); lb.showModal(); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.fullsize'), function(b){ b.addEventListener('click', function(){ var f = b.closest('figure'), z = f && f.querySelector('.zoom'); if (z) z.click(); }); });
+    lbClose.addEventListener('click', function(){ lb.close(); });
+    lb.addEventListener('click', function(ev){ if (ev.target === lb) lb.close(); });
+  }
+
+  /* The flux network, now behind the whole page. Nodes are metabolites, edges reactions (teal
+     catabolic, amber anabolic). Three dials set the diet: glucose and glutamine raise base flux on
+     their reactions, oxygen sets how fast particles travel. The cursor feeds nearby nodes, hovering a
+     card feeds the network around it, a click in open space knocks a node down for a few seconds. */
+  var canvas = document.getElementById('flux');
+  if (!canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = 0, H = 0, nodes = [], edges = [], parts = [], colors = {}, running = false, raf = 0, last = 0, seedBase = 20240731;
+  var mouse = { x: -1e4, y: -1e4, on: false }, feeds = [], diet = { glu: 0.6, oxy: 0.7, gln: 0.5 }, nearest = -1;
+  var NAMES = ['glucose','G6P','F6P','F1,6BP','GAP','3PG','PEP','pyruvate','lactate','acetyl-CoA','citrate','isocitrate','aKG','succinyl-CoA','succinate','fumarate','malate','oxaloacetate','glutamine','glutamate','aspartate','serine','glycine','alanine','ribose-5P','NADPH','NADH','ATP','ADP','palmitate','malonyl-CoA','carnitine','ornithine','citrulline','arginine','proline','asparagine','cysteine','methionine','SAM','IMP','UMP','GTP','CTP','dTTP','cholesterol','HMG-CoA','mevalonate','ketone','beta-OHB'];
+  var hud = document.getElementById('hud'), rN = document.getElementById('rNodes'), rE = document.getElementById('rEdges'), rF = document.getElementById('rFlux'), rK = document.getElementById('rKd');
+  function readColors(){ var s = getComputedStyle(root); colors = { cat: s.getPropertyValue('--cat').trim(), ana: s.getPropertyValue('--ana').trim(), fg: s.getPropertyValue('--fg').trim(), muted: s.getPropertyValue('--muted').trim(), bg: s.getPropertyValue('--bg').trim() }; }
+  function rgba(hex, a){ var h = hex.replace('#',''); if (h.length === 3) h = h.replace(/(.)/g, '$1$1'); var n = parseInt(h, 16); return 'rgba(' + (n>>16&255) + ',' + (n>>8&255) + ',' + (n&255) + ',' + a + ')'; }
+  function build(){
+    W = window.innerWidth; H = window.innerHeight; if (!W || !H) return;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var seed = seedBase; function rnd(){ seed = (seed * 48271) % 2147483647; return seed / 2147483647; }
+    nodes = []; edges = []; parts = [];
+    var cols = Math.max(5, Math.round(W / 118)), rows = Math.max(4, Math.round(H / 108));
+    for (var j = 0; j < rows; j++) for (var i = 0; i < cols; i++) nodes.push({ x: (i + 0.5 + (rnd() - 0.5) * 0.75) / cols * W, y: (j + 0.5 + (rnd() - 0.5) * 0.75) / rows * H, a: 0, kd: 0, r: 2 + rnd() * 2.2, k: rnd() < 0.5 ? 0 : 1, name: NAMES[Math.floor(rnd() * NAMES.length)] });
+    function has(a, b){ for (var e = 0; e < edges.length; e++) if ((edges[e].a === a && edges[e].b === b) || (edges[e].a === b && edges[e].b === a)) return true; return false; }
+    nodes.forEach(function(n, i){
+      var near = [];
+      for (var j2 = 0; j2 < nodes.length; j2++) if (j2 !== i) near.push({ j: j2, d: Math.hypot(nodes[j2].x - n.x, nodes[j2].y - n.y) });
+      near.sort(function(p, q){ return p.d - q.d; });
+      for (var k = 0; k < 3 && k < near.length; k++) if (k < 2 || rnd() < 0.3) { if (!has(i, near[k].j)) edges.push({ a: i, b: near[k].j, t: rnd() < 0.55 ? 0 : 1, base: 0.12 + rnd() * 0.18, len: near[k].d, f: 0 }); }
+    });
+    var count = Math.round(Math.min(320, edges.length * 2.2));
+    for (var p = 0; p < count; p++) parts.push({ e: Math.floor(rnd() * edges.length), s: rnd(), v: 0.6 + rnd() * 0.8 });
+    readColors();
+    if (rN) { rN.textContent = nodes.length; rE.textContent = edges.length; }
+  }
+  function pickEdge(){ var best = Math.floor(Math.random() * edges.length), bf = edges[best].f; for (var t = 0; t < 3; t++) { var c = Math.floor(Math.random() * edges.length); if (edges[c].f > bf) { best = c; bf = edges[c].f; } } return best; }
+  function step(dt){
+    var i, e, n, now = performance.now();
+    feeds = feeds.filter(function(f){ return f.until > now; });
+    for (i = 0; i < nodes.length; i++) {
+      n = nodes[i];
+      if (n.kd > 0) { n.a = 0; continue; }
+      var input = 0;
+      if (mouse.on) { var d = Math.hypot(n.x - mouse.x, n.y - mouse.y); input = Math.exp(-(d * d) / (2 * 120 * 120)); }
+      for (var q = 0; q < feeds.length; q++) { var df = Math.hypot(n.x - feeds[q].x, n.y - feeds[q].y); input += 0.8 * Math.exp(-(df * df) / (2 * feeds[q].r * feeds[q].r)); }
+      n.a = Math.min(1, n.a * Math.pow(0.35, dt) + input * dt * 2.2);
+    }
+    var sum = 0;
+    for (e = 0; e < edges.length; e++) {
+      var ed = edges[e], A = nodes[ed.a], B = nodes[ed.b];
+      if (A.kd > 0 || B.kd > 0) { ed.f += (0 - ed.f) * Math.min(1, dt * 6); continue; }
+      var share = 0.9 * dt, ta = A.a * share, tb = B.a * share;
+      A.a = Math.min(1, A.a + tb); B.a = Math.min(1, B.a + ta);
+      var dietK = ed.t ? (0.35 + 1.3 * diet.gln) : (0.35 + 1.3 * diet.glu);
+      var target = ed.base * dietK + 0.9 * Math.max(A.a, B.a);
+      ed.f += (target - ed.f) * Math.min(1, dt * 4);
+      sum += ed.f;
+    }
+    var speed = 0.45 + 1.1 * diet.oxy;
+    for (i = 0; i < parts.length; i++) { var p = parts[i], pe = edges[p.e]; p.s += dt * p.v * speed * (0.25 + 1.6 * pe.f) * (90 / Math.max(40, pe.len)); if (p.s >= 1 || (pe.f < 0.02 && Math.random() < dt * 3)) { p.e = pickEdge(); p.s = 0; p.v = 0.6 + Math.random() * 0.8; } }
+    if (rF) { var kd = 0; for (i = 0; i < nodes.length; i++) if (nodes[i].kd > 0) kd++; rF.textContent = (sum / Math.max(1, edges.length)).toFixed(2); rK.textContent = kd; }
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H); var e, i; ctx.lineCap = 'round';
+    for (e = 0; e < edges.length; e++) { var ed = edges[e], A = nodes[ed.a], B = nodes[ed.b]; ctx.strokeStyle = rgba(ed.t ? colors.ana : colors.cat, 0.12 + 0.45 * ed.f); ctx.lineWidth = 0.9 + 1.6 * ed.f; ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke(); }
+    for (i = 0; i < parts.length; i++) { var p = parts[i], pe = edges[p.e], a = nodes[pe.a], b = nodes[pe.b]; var x = a.x + (b.x - a.x) * p.s, y = a.y + (b.y - a.y) * p.s; var s0 = Math.max(0, p.s - 0.06), x0 = a.x + (b.x - a.x) * s0, y0 = a.y + (b.y - a.y) * s0; var col = pe.t ? colors.ana : colors.cat, al = 0.4 + 0.6 * pe.f; ctx.strokeStyle = rgba(col, al * 0.5); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x, y); ctx.stroke(); ctx.fillStyle = rgba(col, al); ctx.beginPath(); ctx.arc(x, y, 1.5 + pe.f, 0, 6.2832); ctx.fill(); }
+    for (i = 0; i < nodes.length; i++) { var n = nodes[i]; if (n.kd > 0) { ctx.strokeStyle = rgba(colors.muted, 0.8); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 3, 0, 6.2832); ctx.stroke(); ctx.beginPath(); ctx.moveTo(n.x - n.r - 1, n.y + n.r + 1); ctx.lineTo(n.x + n.r + 1, n.y - n.r - 1); ctx.stroke(); continue; } ctx.fillStyle = rgba(colors.fg, 0.45 + 0.55 * n.a); ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 1.6 * n.a, 0, 6.2832); ctx.fill(); if (n.a > 0.15) { ctx.strokeStyle = rgba(n.k ? colors.ana : colors.cat, 0.5 * n.a); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(n.x, n.y, n.r + 4 + 6 * n.a, 0, 6.2832); ctx.stroke(); } }
+    if (nearest >= 0 && mouse.on) {
+      var nn = nodes[nearest], label = nn.name + (nn.kd > 0 ? ', knocked down' : ', activity ' + nn.a.toFixed(2));
+      ctx.font = '600 12px ' + getComputedStyle(document.body).fontFamily;
+      var tw = ctx.measureText(label).width + 14;
+      ctx.fillStyle = rgba(colors.bg, 0.85); ctx.beginPath(); ctx.roundRect ? ctx.roundRect(nn.x + 10, nn.y - 22, tw, 20, 6) : ctx.rect(nn.x + 10, nn.y - 22, tw, 20); ctx.fill();
+      ctx.fillStyle = colors.fg; ctx.fillText(label, nn.x + 17, nn.y - 8);
+    }
+  }
+  function frame(t){ if (!running) return; var dt = Math.min(0.05, (t - last) / 1000 || 0.016); last = t; step(dt); draw(); raf = requestAnimationFrame(frame); }
+  function start(){ if (running || reduce) return; running = true; last = performance.now(); raf = requestAnimationFrame(frame); if (hud) hud.classList.remove('paused'); var tg = document.getElementById('hudToggle'); if (tg) tg.classList.remove('paused'); }
+  function stop(){ running = false; if (raf) cancelAnimationFrame(raf); if (hud) hud.classList.add('paused'); var tg = document.getElementById('hudToggle'); if (tg) tg.classList.add('paused'); }
+  function settle(){ for (var k = 0; k < 90; k++) step(0.03); draw(); }
+  build(); settle();
+  if (!reduce) { start(); document.addEventListener('visibilitychange', function(){ if (document.hidden) stop(); else if (!paused) start(); }); }
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ build(); settle(); }, 150); });
+  window.addEventListener('themechange', function(){ readColors(); draw(); });
+  function findNearest(x, y, maxd){ var best = -1, bd = 1e9; for (var i = 0; i < nodes.length; i++) { var d = Math.hypot(nodes[i].x - x, nodes[i].y - y); if (d < bd) { bd = d; best = i; } } return bd < maxd ? best : -1; }
+  window.addEventListener('pointermove', function(ev){ mouse.x = ev.clientX; mouse.y = ev.clientY; mouse.on = true; nearest = findNearest(ev.clientX, ev.clientY, 26); if (reduce) settle(); });
+  document.addEventListener('pointerleave', function(){ mouse.on = false; nearest = -1; });
+  /* click knocks a node down and it stays down; clicking it again brings it back */
+  function knock(best){ nodes[best].kd = 1e9; edges.forEach(function(ed){ if (ed.a === best || ed.b === best) { var o = nodes[ed.a === best ? ed.b : ed.a]; o.a = Math.min(1, o.a + 0.5); } }); if (reduce) settle(); }
+  function revive(best){ nodes[best].kd = 0; nodes[best].a = 1; if (reduce) settle(); }
+  document.addEventListener('click', function(ev){
+    if (ev.target.closest('a, button, input, label, .panel, .hud, .nav, dialog')) return;
+    var best = findNearest(ev.clientX, ev.clientY, 90);
+    if (best < 0) return;
+    if (nodes[best].kd > 0) revive(best); else knock(best);
+  });
+  /* hovering a card feeds the network around it */
+  Array.prototype.forEach.call(document.querySelectorAll('.thread, .project, .principles > div, .tl-body'), function(el){
+    el.addEventListener('pointerenter', function(){ var r = el.getBoundingClientRect(); feeds.push({ x: r.left + r.width / 2, y: r.top + r.height / 2, r: Math.max(140, r.width * 0.45), until: performance.now() + 2500 }); });
+  });
+  /* console */
+  var paused = false;
+  function dial(id, vid, key){ var s = document.getElementById(id), v = document.getElementById(vid); if (!s) return; s.addEventListener('input', function(){ diet[key] = s.value / 100; v.textContent = s.value; if (reduce) settle(); }); }
+  dial('sGlu', 'vGlu', 'glu'); dial('sOxy', 'vOxy', 'oxy'); dial('sGln', 'vGln', 'gln');
+  var bPause = document.getElementById('bPause'), bReset = document.getElementById('bReset'), bRandom = document.getElementById('bRandom'), hudToggle = document.getElementById('hudToggle');
+  function togglePause(){ paused = !paused; if (paused) stop(); else start(); if (bPause) bPause.textContent = paused ? 'Resume' : 'Pause'; }
+  if (bPause) bPause.addEventListener('click', togglePause);
+  if (bReset) bReset.addEventListener('click', function(){ nodes.forEach(function(n){ n.kd = 0; n.a = 0; }); feeds = []; ['sGlu','sOxy','sGln'].forEach(function(id, k){ var s = document.getElementById(id); s.value = [60, 70, 50][k]; s.dispatchEvent(new Event('input')); }); settle(); });
+  if (bRandom) bRandom.addEventListener('click', function(){ seedBase = Math.floor(Math.random() * 2147483000) + 1; build(); settle(); });
+  function setHud(open){ hud.classList.toggle('open', open); hudToggle.setAttribute('aria-expanded', open ? 'true' : 'false'); hudToggle.lastChild.textContent = open ? 'Close console' : 'Flux network, live'; }
+  if (hudToggle) hudToggle.addEventListener('click', function(){ setHud(!hud.classList.contains('open')); });
+  var hudClose = document.getElementById('hudClose'); if (hudClose) hudClose.addEventListener('click', function(){ setHud(false); });
+  document.addEventListener('keydown', function(ev){ if (ev.code === 'Space' && !ev.target.closest('input, textarea, button, a')) { ev.preventDefault(); togglePause(); } });
+})();
+</script>
+<!--/ART-->
+</body>
+</html>
